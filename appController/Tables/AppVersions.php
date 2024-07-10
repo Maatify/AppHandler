@@ -10,7 +10,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
-use Maatify\AppController\EnumAppTypeId;
+use Maatify\AppController\Enums\EnumAppTypeId;
 use Maatify\Json\Json;
 
 class AppVersions extends DbConnector
@@ -64,6 +64,7 @@ class AppVersions extends DbConnector
         $this->app_version = (int)$this->postValidator->Require('app_version', 'int');
         if (! $this->Check()) {
             $this->app_type_enum = EnumAppTypeId::validate($this->app_type_id);
+
             $url = $this->app_type_enum?->getUrl() ?? '';
 
             /*$url = match ($this->app_type_id) {

@@ -10,7 +10,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\Handler\ParentClassHandler;
-use Maatify\AppController\EnumAppTypeId;
+use Maatify\AppController\Enums\EnumAppTypeId;
 use Maatify\Json\Json;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
