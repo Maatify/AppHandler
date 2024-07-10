@@ -21,7 +21,7 @@ class AppType extends DbConnector
     public const        LOGGER_SUB_TYPE            = '';
     public const        COLS                       = [
         self::IDENTIFY_TABLE_ID_COL_NAME => 1,
-        'icon'                           => 0,
+        'app_icon'                           => 0,
         'name'                           => 0,
     ];
 

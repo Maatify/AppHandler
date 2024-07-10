@@ -40,7 +40,7 @@ class AppTypePortal extends ParentClassHandler
     }
 
     protected array $cols_to_edit = [
-        ['icon', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
+        ['app_icon', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['name', ValidatorConstantsTypes::NameEn, ValidatorConstantsValidators::Optional],
     ];
 
