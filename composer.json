@@ -1,6 +1,6 @@
 {  "name": "maatify/app-handler",
   "description": "PHP library for Customers Apps Controller handler, known by our team",
-  "version": "1.0.0014",
+  "version": "2.0.0001",
   "type": "library",
   "keywords": [
     "PHP",
@@ -45,10 +45,11 @@
   ],
   "config": {
     "platform": {
-      "php": "8.0.0"
+      "php": "8.1.0"
     }
   },
   "require": {
+    "php": ">=8.1",
     "maatify/logger": "^1.1",
     "ext-curl": "*",
     "maatify/functions": "^1.2",

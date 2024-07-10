@@ -1,12 +1,10 @@
 <?php
 /**
- * @PHP       Version >= 8.0
- * @copyright ©2023 Maatify.dev
- * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
- * @since     2024-07-10 8:35 AM
- * @link      https://www.maatify.dev Maatify.com
- * @link      https://github.com/Maatify/AppHandler  view project on GitHub
- * @Maatify   AppHandler :: AppVersions
+ * Created by Maatify.dev
+ * User: Maatify.dev
+ * Date: 2024-07-10
+ * Time: 8:35 AM
+ * https://www.Maatify.dev
  */
 
 namespace Maatify\AppController\Tables;
@@ -26,7 +24,7 @@ class AppVersions extends DbConnector
         self::IDENTIFY_TABLE_ID_COL_NAME => 1,
         'version_no'                     => 1,
         'name'                           => 0,
-        'status'                         => 1,
+        'status'                        => 1,
         'app_type_id'                    => 1,
     ];
 
