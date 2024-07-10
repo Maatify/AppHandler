@@ -47,7 +47,7 @@ abstract class AppDeviceFields extends DbConnector
         $this->app_type_id = $appTypeId->value;
     }
 
-    public function setDeviceId(int $deviceId): void
+    public function setDeviceId(string $deviceId): void
     {
         $this->device_id = $deviceId;
     }
