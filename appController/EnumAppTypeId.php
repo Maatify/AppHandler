@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by Maatify.dev
- * User: Maatify.dev
- * Date: 2025-01-05
- * Time: 7:58 AM
- * https://www.Maatify.dev
+ * @PHP       Version >= 8.0
+ * @copyright ©2023 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2025-01-05 7:58 AM
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: EnumAppTypeId
  */
 
 namespace Maatify\AppController;
