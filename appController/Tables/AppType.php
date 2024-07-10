@@ -16,7 +16,7 @@ class AppType extends DbConnector
 {
     public const        TABLE_NAME                 = "app_type";
     public const        TABLE_ALIAS                = 'app_type';
-    public const        IDENTIFY_TABLE_ID_COL_NAME = 'app_id';
+    public const        IDENTIFY_TABLE_ID_COL_NAME = 'app_type_id';
     public const        LOGGER_TYPE                = self::TABLE_NAME;
     public const        LOGGER_SUB_TYPE            = '';
     public const        COLS                       = [
