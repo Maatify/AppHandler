@@ -23,6 +23,7 @@ enum EnumAppTypeId: int
     case AgentAndroid = 6;
     case AgentIOS = 7;
     case AgentHuawei = 8;
+    case API = 9;
 
     /**
      * Map each enum case to its corresponding URL.
