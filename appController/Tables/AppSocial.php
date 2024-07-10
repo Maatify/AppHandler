@@ -55,12 +55,6 @@ class AppSocial extends DbConnector
         return self::$instance;
     }
 
-
-    public function AppView(): array
-    {
-        return $this->RowThisTableByID(1);
-    }
-
     public function AndroidUrl(): string
     {
         return $this->ColByName('android_app');

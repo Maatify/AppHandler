@@ -62,6 +62,11 @@ class AppPhonesPortal extends ParentClassHandler
         }
     }
 
+    public function AllPaginationThisTableFilter(string $order_with_asc_desc = ''): void
+    {
+        parent::AllPaginationThisTableFilter($order_with_asc_desc ? '' : ' ORDER BY sort ASC');
+    }
+
     public function UpdateByPostedId(): void
     {
         $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone);

@@ -58,7 +58,8 @@ class AppSocialPortal extends ParentClassHandler
         ['huawei_agent_app', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
     ];
 
-    protected array $cols_to_filter = [
-        [self::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
-    ];
+    public function AppView(): array
+    {
+        return $this->RowThisTableByID(1);
+    }
 }
