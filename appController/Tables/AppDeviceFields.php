@@ -1,0 +1,103 @@
+<?php
+/**
+ * @PHP       Version >= 8.0
+ * @copyright ©2023 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2025-01-15 2:11 PM
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: AppDeviceFields
+ */
+
+namespace Maatify\AppController\Tables;
+
+use \App\DB\DBS\DbConnector;
+use Maatify\AppController\Enums\EnumAppTypeId;
+use Maatify\Json\Json;
+
+abstract class AppDeviceFields extends DbConnector
+{
+    public const TABLE_NAME                 = 'app_f_device';
+    public const TABLE_ALIAS                = '';
+    public const IDENTIFY_TABLE_ID_COL_NAME = 'id';
+    public const LOGGER_TYPE                = self::TABLE_NAME;
+    public const LOGGER_SUB_TYPE            = '';
+    public const COLS                       = [
+        self::IDENTIFY_TABLE_ID_COL_NAME    => 1,
+        AppType::IDENTIFY_TABLE_ID_COL_NAME => 1,
+        'device_id'                         => 0,
+        'sms_fields'                        => 1,
+        'login_fields'                      => 1,
+    ];
+
+    protected string $tableName = self::TABLE_NAME;
+    protected string $tableAlias = self::TABLE_ALIAS;
+    protected string $identify_table_id_col_name = self::IDENTIFY_TABLE_ID_COL_NAME;
+    protected string $logger_type = self::LOGGER_TYPE;
+    protected string $logger_sub_type = self::LOGGER_SUB_TYPE;
+    protected array $cols = self::COLS;
+
+    protected const FIELDS_SMS   = 5;
+    protected const FIELDS_LOGIN = 7;
+    protected string $device_id;
+    protected int $app_type_id;
+
+    public function setAppTypeId(EnumAppTypeId $appTypeId): void
+    {
+        $this->app_type_id = $appTypeId->value;
+    }
+
+    public function setDeviceId(int $deviceId): void
+    {
+        $this->device_id = $deviceId;
+    }
+
+    public function getDeviceId(): string
+    {
+        return $this->device_id;
+    }
+
+    public function getAppTypeId(): int
+    {
+        return $this->app_type_id;
+    }
+
+    public function recordDevice(EnumAppTypeId $appTypeId, string $device_id): int
+    {
+        if (! $id = $this->deviceIdIsExist($appTypeId, $device_id)) {
+            return $this->Add([
+                'app_type_id' => $appTypeId->value,
+                'device_id'    => $device_id,
+                'sms_fields'   => 0,
+                'login_fields' => 0,
+            ]);
+        }
+
+        return $id;
+    }
+
+    protected function deviceIdIsExist(EnumAppTypeId $appTypeId, string $device_id): int
+    {
+        return (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$appTypeId->value, $device_id]);
+    }
+
+    public function checkDeviceIsBlocked(): void
+    {
+        if ($this->checkDeviceIsBlockedBool()) {
+            Json::DeviceIsBlocked();
+        }
+    }
+
+    public function checkDeviceIsBlockedBool(): bool
+    {
+        if ($this->ColThisTable('sms_fields',
+            '`app_type_id` = ? AND `device_id` = ? AND `sms_fields` >= ? AND `login_fields` >= ? ',
+            [$this->app_type_id, $this->device_id, self::FIELDS_SMS, self::FIELDS_LOGIN])
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+}
