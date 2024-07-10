@@ -1,4 +1,4 @@
-{  "name": "maatify/app-controller",
+{  "name": "maatify/app-handler",
   "description": "PHP library for Customers Apps Controller handler, known by our team",
   "version": "1.0.1",
   "type": "library",
