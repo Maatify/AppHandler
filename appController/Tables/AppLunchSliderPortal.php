@@ -9,8 +9,10 @@
 
 namespace Maatify\AppController\Tables;
 
+use App\Assist\AppFunctions;
 use App\DB\Handler\ParentLanguageSliderHandler;
 use App\DB\Tables\DbLanguage;
+use Maatify\Json\Json;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
@@ -68,6 +70,9 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
 
     // to use in add if child classes have language_id
     protected array $child_classe_languages = [];
+
+    protected string $table_destination_class = DbLanguage::class;
+
     private static self $instance;
 
     public static function obj(): self
@@ -77,5 +82,23 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
         }
 
         return self::$instance;
+    }
+
+    public function Record(): void
+    {
+        $image_type = $this->postValidator->Require('image_type', ValidatorConstantsTypes::Small_Letters);
+        if(!in_array($image_type, AppFunctions::LunchScreenImageTypes())) {
+            Json::Incorrect('image_type', AppFunctions::LunchScreenImageTypesErrorMessage());
+        }
+        parent::Record();
+    }
+
+    public function UpdateByPostedId(): void
+    {
+        $image_type = $this->postValidator->Optional('image_type', ValidatorConstantsTypes::Small_Letters);
+        if(!empty($image_type) && !in_array($image_type, AppFunctions::LunchScreenImageTypes())) {
+            Json::Incorrect('image_type', AppFunctions::LunchScreenImageTypesErrorMessage());
+        }
+        parent::UpdateByPostedId();
     }
 }
