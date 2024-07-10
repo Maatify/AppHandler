@@ -60,6 +60,7 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
     ];
 
     protected array $cols_to_filter = [
+        ['image_type', ValidatorConstantsTypes::Small_Letters, ValidatorConstantsValidators::Optional],
         [self::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
         ['title', ValidatorConstantsTypes::Name, ValidatorConstantsValidators::Optional],
         [ValidatorConstantsTypes::Status, ValidatorConstantsTypes::Status, ValidatorConstantsValidators::Optional],
