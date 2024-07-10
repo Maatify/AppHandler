@@ -10,6 +10,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\Handler\ParentClassHandler;
+use Maatify\Json\Json;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
@@ -50,4 +51,21 @@ class AppPhonesPortal extends ParentClassHandler
         [self::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
         ['phone', ValidatorConstantsTypes::Bool, ValidatorConstantsValidators::Optional],
     ];
+
+    public function Record(): void
+    {
+        $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone);
+        if($this->CheckPhoneExist($phone)){
+            Json::Exist('phone', 'Phone number already exists', $this->class_name . __LINE__);
+        }else{
+            parent::Record();
+        }
+    }
+
+
+
+    private function CheckPhoneExist(string $phone): bool
+    {
+        return $this->RowIsExistThisTable('`phone` = ? ', [$phone]);
+    }
 }

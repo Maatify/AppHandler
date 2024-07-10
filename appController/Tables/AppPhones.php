@@ -43,11 +43,6 @@ class AppPhones extends DbConnector
         return self::$instance;
     }
 
-    protected function CheckPhoneExist(string $phone): bool
-    {
-        return $this->RowIsExistThisTable('`phone` = ? ', [$phone]);
-    }
-
 
     public function AppView(): array
     {
