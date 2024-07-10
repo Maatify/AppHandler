@@ -42,14 +42,16 @@ abstract class AppDeviceFields extends DbConnector
     protected string $device_id;
     protected int $app_type_id;
 
-    public function setAppTypeId(EnumAppTypeId $appTypeId): void
+    public function setAppTypeId(EnumAppTypeId $appTypeId): self
     {
         $this->app_type_id = $appTypeId->value;
+        return $this;
     }
 
-    public function setDeviceId(string $deviceId): void
+    public function setDeviceId(string $deviceId): self
     {
         $this->device_id = $deviceId;
+        return $this;
     }
 
     public function getDeviceId(): string
