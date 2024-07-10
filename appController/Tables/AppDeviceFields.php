@@ -62,11 +62,11 @@ abstract class AppDeviceFields extends DbConnector
         return $this->app_type_id;
     }
 
-    public function recordDevice(EnumAppTypeId $appTypeId, string $device_id): int
+    public function recordDevice(string $device_id): int
     {
-        if (! $id = $this->deviceIdIsExist($appTypeId, $device_id)) {
+        if (! $id = $this->deviceIdIsExist($this->app_type_id, $device_id)) {
             return $this->Add([
-                'app_type_id' => $appTypeId->value,
+                'app_type_id' => $this->app_type_id,
                 'device_id'    => $device_id,
                 'sms_fields'   => 0,
                 'login_fields' => 0,
@@ -76,9 +76,9 @@ abstract class AppDeviceFields extends DbConnector
         return $id;
     }
 
-    protected function deviceIdIsExist(EnumAppTypeId $appTypeId, string $device_id): int
+    protected function deviceIdIsExist(string $device_id): int
     {
-        return (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$appTypeId->value, $device_id]);
+        return (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$this->app_type_id, $device_id]);
     }
 
     public function checkDeviceIsBlocked(): void
