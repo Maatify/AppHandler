@@ -1,0 +1,75 @@
+{  "name": "maatify/app-controller",
+  "description": "PHP library for Customers Apps Controller handler, known by our team",
+  "version": "1.0.1",
+  "type": "library",
+  "keywords": [
+    "PHP",
+    "Customers",
+    "Apps",
+    "Controller",
+    "Handler"
+  ],
+  "homepage": "https://github.com/Maatify/",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Mohamed Abdulalim",
+      "email": "mohamed@maatify.dev",
+      "homepage": "https://www.maatify.com/",
+      "role": "Backend Developer"
+    },
+    {
+      "name": "Ahmed Fawzy",
+      "email": "a.fawzy@maatify.dev",
+      "homepage": "https://www.maatify.com/",
+      "role": "Frontend Developer"
+    },
+    {
+      "name": "Mohaned Saeed Sami",
+      "email": "mohaned.saeed@maatify.dev",
+      "homepage": "https://www.maatify.com/",
+      "role": "Frontend Developer"
+    },
+    {
+      "name": "Ahmed Abdullah",
+      "email": "a.abdullah@maatify.dev",
+      "homepage": "https://www.maatify.com/",
+      "role": "Android Developer"
+    },
+    {
+      "name": "Elmokhtar Ahmed",
+      "email": "mokhtar@maatify.dev",
+      "homepage": "https://www.maatify.com/",
+      "role": "IOS Developer"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "8.0.0"
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "maatify/logger": "^1.1",
+    "ext-curl": "*",
+    "maatify/functions": "^1.2",
+    "maatify/google-fcm": "^1.1",
+    "maatify/json": "^1.1",
+    "maatify/open-ssl": "^1.0",
+    "maatify/realm": "^1.0",
+    "maatify/telegram-bot": "^1.6",
+    "maatify/uploader": "^1.2",
+    "maatify/db-model-v3": "^1.2",
+    "maatify/post-validator-v2": "^1.2",
+    "maatify/redis": "^1.0",
+    "donatj/phpuseragentparser": "^1.8",
+    "maatify/smseg": "^1.0",
+    "maatify/routee": "^1.0",
+    "maatify/whysms": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Maatify\\AppController\\": "appController/"
+    }
+  }
+}
