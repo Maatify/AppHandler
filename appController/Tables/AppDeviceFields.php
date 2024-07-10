@@ -74,7 +74,9 @@ abstract class AppDeviceFields extends DbConnector
 
     public function deviceIdIsExist(): int
     {
-        return (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$this->app_type_id, $this->device_id]);
+        $this->row_id = (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$this->app_type_id, $this->device_id]);
+
+        return $this->row_id;
     }
 
     public function checkDeviceIsBlocked(): void
@@ -86,8 +88,9 @@ abstract class AppDeviceFields extends DbConnector
 
     public function checkDeviceIsBlockedBool(): bool
     {
-        if(!$this->deviceIdIsExist()) {
+        if (! $this->deviceIdIsExist()) {
             $this->recordDevice();
+
             return false;
         }
 
@@ -102,4 +105,53 @@ abstract class AppDeviceFields extends DbConnector
     }
 
 
+    private function fieldSms(): int
+    {
+        return (int)$this->ColThisTable('sms_fields', '`id` = ? ', [$this->row_id]);
+    }
+
+    public function addFieldSms(): int
+    {
+        $fields = $this->fieldSms();
+        if ($fields <= self::FIELDS_SMS) {
+            if ($this->Edit(['sms_fields' => $fields + 1], '`id` = ? ', [$this->row_id])) {
+                return $fields + 1;
+            }
+        }
+        Json::DeviceIsBlocked();
+        exit();
+    }
+
+    public function removeFieldSms(): void
+    {
+        if ($this->deviceIdIsExist()) {
+            $this->Edit(['sms_fields' => 0], '`id` = ? ', [$this->row_id]);
+        }
+    }
+
+
+
+    private function fieldLogins(): int
+    {
+        return (int)$this->ColThisTable('login_fields', '`id` = ? ', [$this->row_id]);
+    }
+
+    public function addFieldLogins(): int
+    {
+        $fields = $this->fieldLogins();
+        if ($fields <= self::FIELDS_LOGIN) {
+            if ($this->Edit(['login_fields' => $fields + 1], '`id` = ? ', [$this->row_id])) {
+                return $fields + 1;
+            }
+        }
+        Json::DeviceIsBlocked();
+        exit();
+    }
+
+    public function removeFieldLogins(): void
+    {
+        if ($this->deviceIdIsExist()) {
+            $this->Edit(['login_fields' => 0], '`id` = ? ', [$this->row_id]);
+        }
+    }
 }
