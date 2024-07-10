@@ -62,23 +62,19 @@ abstract class AppDeviceFields extends DbConnector
         return $this->app_type_id;
     }
 
-    public function recordDevice(string $device_id): int
+    private function recordDevice(): void
     {
-        if (! $id = $this->deviceIdIsExist($this->app_type_id, $device_id)) {
-            return $this->Add([
-                'app_type_id' => $this->app_type_id,
-                'device_id'    => $device_id,
-                'sms_fields'   => 0,
-                'login_fields' => 0,
-            ]);
-        }
-
-        return $id;
+        $this->Add([
+            'app_type_id'  => $this->app_type_id,
+            'device_id'    => $this->device_id,
+            'sms_fields'   => 0,
+            'login_fields' => 0,
+        ]);
     }
 
-    protected function deviceIdIsExist(string $device_id): int
+    public function deviceIdIsExist(): int
     {
-        return (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$this->app_type_id, $device_id]);
+        return (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$this->app_type_id, $this->device_id]);
     }
 
     public function checkDeviceIsBlocked(): void
@@ -90,6 +86,11 @@ abstract class AppDeviceFields extends DbConnector
 
     public function checkDeviceIsBlockedBool(): bool
     {
+        if(!$this->deviceIdIsExist()) {
+            $this->recordDevice();
+            return false;
+        }
+
         if ($this->ColThisTable('sms_fields',
             '`app_type_id` = ? AND `device_id` = ? AND `sms_fields` >= ? AND `login_fields` >= ? ',
             [$this->app_type_id, $this->device_id, self::FIELDS_SMS, self::FIELDS_LOGIN])
@@ -99,5 +100,6 @@ abstract class AppDeviceFields extends DbConnector
 
         return false;
     }
+
 
 }
