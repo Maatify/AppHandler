@@ -39,7 +39,7 @@ class AppPhonesPortal extends ParentClassHandler
         return self::$instance;
     }
     protected array $cols_to_add = [
-        ['phone', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
+        ['phone', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Require],
     ];
 
     protected array $cols_to_edit = [
