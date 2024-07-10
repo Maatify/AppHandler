@@ -28,6 +28,8 @@ class AppSocial extends DbConnector
         'youtube'                        => 0,
         'whatsapp'                       => 0,
         'about_us'                       => 0,
+        'privacy_policy'                 => 0,
+        'returns_refunds_policy'         => 0,
         'dev_name'                       => 0,
         'dev_url'                        => 0,
         'ios_app'                        => 0,

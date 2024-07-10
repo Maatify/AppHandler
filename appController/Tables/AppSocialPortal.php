@@ -10,6 +10,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\Handler\ParentClassHandler;
+use Maatify\Json\Json;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
@@ -48,6 +49,8 @@ class AppSocialPortal extends ParentClassHandler
         ['youtube', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['whatsapp', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['about_us', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
+        ['privacy_policy', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
+        ['returns_refunds_policy', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['dev_name', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['dev_url', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['android_app', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
@@ -58,8 +61,23 @@ class AppSocialPortal extends ParentClassHandler
         ['huawei_agent_app', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
     ];
 
-    public function AppView(): array
+
+
+    public function AppView(): void
     {
-        return $this->RowThisTableByID(1);
+        $result = $this->RowThisTableByID(1);
+        unset($result[self::IDENTIFY_TABLE_ID_COL_NAME]);
+
+        Json::Success(
+            $result,
+
+            line: $this->class_name . __LINE__
+        );
+    }
+
+    public function UpdateByPostedId(): void
+    {
+        $_POST[self::IDENTIFY_TABLE_ID_COL_NAME] = 1;
+        parent::UpdateByPostedId();
     }
 }

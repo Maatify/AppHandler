@@ -55,4 +55,12 @@ class AppType extends DbConnector
             $this->RowsThisTable()
         );
     }
+
+    public function InnerJoinThisTableByIdentifyId(string $tables): array
+    {
+        return [
+            "INNER JOIN `$this->tableName` ON `$this->tableName`.`$this->identify_table_id_col_name` = `$tables`.`$this->identify_table_id_col_name`" ,
+            "`$this->tableName`.`name` as app_name, `$this->tableName`.`app_icon` as app_icon"
+        ];
+    }
 }

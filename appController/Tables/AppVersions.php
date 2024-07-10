@@ -23,8 +23,8 @@ class AppVersions extends DbConnector
         self::IDENTIFY_TABLE_ID_COL_NAME => 1,
         'version_no'                     => 1,
         'name'                           => 0,
-        'allowed'                        => 1,
-        'app_id'                         => 1,
+        'status'                        => 1,
+        'app_type_id'                    => 1,
     ];
 
     protected string $tableName = self::TABLE_NAME;
@@ -49,6 +49,7 @@ class AppVersions extends DbConnector
     private string $device_name = '';
     private string $device_id = '';
     private string $app_type_name = '';
+
     public function Validate(): void
     {
         $this->app_type_id = (int)$this->postValidator->Require('app_type_id', 'int');
@@ -78,12 +79,12 @@ class AppVersions extends DbConnector
 
     private function Check(): int
     {
-        return (int)$this->ColThisTable('allowed',
-            "`app_id` = '$this->app_type_id' AND (`version_no` <= '$this->app_version' OR 
+        return (int)$this->ColThisTable('status',
+            "`app_type_id` = '$this->app_type_id' AND (`version_no` <= '$this->app_version' OR 
             (`version_no` = '$this->app_version' AND `$this->identify_table_id_col_name` = 
                 (select `$this->identify_table_id_col_name` 
                 FROM `$this->tableName` 
-                WHERE `app_id` = '$this->app_type_id' 
+                WHERE `app_type_id` = '$this->app_type_id' 
                 ORDER BY `$this->identify_table_id_col_name` DESC LIMIT 1)
             )
             ) ORDER BY `$this->identify_table_id_col_name` DESC LIMIT 1");
