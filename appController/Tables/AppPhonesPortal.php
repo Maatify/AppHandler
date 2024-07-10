@@ -62,6 +62,16 @@ class AppPhonesPortal extends ParentClassHandler
         }
     }
 
+    public function UpdateByPostedId(): void
+    {
+        $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone);
+        if($this->CheckPhoneExist($phone)){
+            Json::Exist('phone', 'Phone number already exists', $this->class_name . __LINE__);
+        }else{
+            parent::UpdateByPostedId();
+        }
+    }
+
 
 
     private function CheckPhoneExist(string $phone): bool
