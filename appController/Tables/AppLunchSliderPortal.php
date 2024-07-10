@@ -56,6 +56,7 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
         [ValidatorConstantsTypes::Description, ValidatorConstantsTypes::Description, ValidatorConstantsValidators::Optional],
         ['sort', ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
         [ValidatorConstantsTypes::Status, ValidatorConstantsTypes::Status, ValidatorConstantsValidators::Optional],
+        ['is_archived', ValidatorConstantsTypes::Bool, ValidatorConstantsValidators::Optional],
 
     ];
 
@@ -64,6 +65,7 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
         [self::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
         ['title', ValidatorConstantsTypes::Name, ValidatorConstantsValidators::Optional],
         [ValidatorConstantsTypes::Status, ValidatorConstantsTypes::Status, ValidatorConstantsValidators::Optional],
+        ['is_archived', ValidatorConstantsTypes::Bool, ValidatorConstantsValidators::Optional],
     ];
 
     // to use in add if child classes no have language_id

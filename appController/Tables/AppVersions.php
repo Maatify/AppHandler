@@ -10,6 +10,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
+use Maatify\AppController\EnumAppTypeId;
 use Maatify\Json\Json;
 
 class AppVersions extends DbConnector
@@ -23,7 +24,7 @@ class AppVersions extends DbConnector
         self::IDENTIFY_TABLE_ID_COL_NAME => 1,
         'version_no'                     => 1,
         'name'                           => 0,
-        'status'                        => 1,
+        'status'                         => 1,
         'app_type_id'                    => 1,
     ];
 
@@ -45,6 +46,7 @@ class AppVersions extends DbConnector
     }
 
     private int $app_type_id = 0;
+    private ?EnumAppTypeId $app_type_enum;
     private int $app_version = 0;
     private string $device_name = '';
     private string $device_id = '';
@@ -53,28 +55,32 @@ class AppVersions extends DbConnector
     public function Validate(): void
     {
         $this->app_type_id = (int)$this->postValidator->Require('app_type_id', 'int');
-        if (! in_array($this->app_type_id, AppType::ALL_APPS)) {
-            Json::Incorrect('app_type_id');
-            // App type 1: web, 2: android, 3: ios, 4: Huawei
-        } else {
-            $this->app_version = (int)$this->postValidator->Require('app_version', 'int');
-            if (! $this->Check()) {
-                $url = match ($this->app_type_id) {
-                    2 => AppSocial::obj()->AndroidUrl(),
-                    3 => AppSocial::obj()->IosUrl(),
-                    4 => AppSocial::obj()->HuaweiUrl(),
-                    5 => AppSocial::obj()->AndroidAgentUrl(),
-                    6 => AppSocial::obj()->IosAgentUrl(),
-                    7 => AppSocial::obj()->HuaweiAgentUrl(),
-                    default => '',
-                };
 
-                Json::Incorrect('app_version', /*'Wrong APP Version (Need Updates)'*/ $url);
-            }
-            $this->device_name = $this->postValidator->Require('device_name', 'device_name');
-            $this->device_id = $this->postValidator->Require('device_id', 'device_id');
-            $this->app_type_name = AppType::obj()->TypeName($this->app_type_id);
+        if (! EnumAppTypeId::tryFrom($this->app_type_id)) {
+            Json::Incorrect('app_type_id');
+            // App type 1: web, 2: android, 3: ios, 4: Huawei etc
         }
+
+        $this->app_version = (int)$this->postValidator->Require('app_version', 'int');
+        if (! $this->Check()) {
+            $this->app_type_enum = EnumAppTypeId::validate($this->app_type_id);
+            $url = $this->app_type_enum?->getUrl() ?? '';
+
+            /*$url = match ($this->app_type_id) {
+                2 => AppSocial::obj()->AndroidUrl(),
+                3 => AppSocial::obj()->IosUrl(),
+                4 => AppSocial::obj()->HuaweiUrl(),
+                6 => AppSocial::obj()->AndroidAgentUrl(),
+                7 => AppSocial::obj()->IosAgentUrl(),
+                8 => AppSocial::obj()->HuaweiAgentUrl(),
+                default => '',
+            };*/
+
+            Json::Incorrect('app_version', /*'Wrong APP Version (Need Updates)'*/ $url);
+        }
+        $this->device_name = $this->postValidator->Require('device_name', 'device_name');
+        $this->device_id = $this->postValidator->Require('device_id', 'device_id');
+        $this->app_type_name = AppType::obj()->TypeName($this->app_type_id);
     }
 
     private function Check(): int
@@ -93,6 +99,11 @@ class AppVersions extends DbConnector
     public function AppTypeId(): int
     {
         return $this->app_type_id;
+    }
+
+    public function getAppTypeEnum(): ?EnumAppTypeId
+    {
+        return $this->app_type_enum;
     }
 
     public function AppVersion(): int

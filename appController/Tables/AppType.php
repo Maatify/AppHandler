@@ -42,8 +42,6 @@ class AppType extends DbConnector
         return self::$instance;
     }
 
-    public const ALL_APPS = [1, 2, 3, 4, 5, 6, 7];
-
     public function TypeName(int $type_id): string
     {
         return $this->ColThisTable('name', "`$this->identify_table_id_col_name` = ? ", [$type_id]);
