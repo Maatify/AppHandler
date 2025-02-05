@@ -11,9 +11,9 @@
 
 namespace Maatify\AppController\Enums;
 
-use Maatify\AppController\Contracts\EnumAppDeviceStatusInterface;
+use Maatify\AppController\Contracts\AppDeviceStatusInterface;
 
-enum EnumAppDeviceStatus : int implements EnumAppDeviceStatusInterface
+enum AppDeviceStatus : int implements AppDeviceStatusInterface
 {
     case Pending = 1;
     case Approved = 2;
@@ -21,7 +21,7 @@ enum EnumAppDeviceStatus : int implements EnumAppDeviceStatusInterface
 
 
     /**
-     * Validate and get the corresponding EnumAppTypeId case.
+     * Validate and get the corresponding AppTypeId case.
      *
      * @param   int  $type_id
      *

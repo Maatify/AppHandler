@@ -12,7 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use \App\DB\DBS\DbConnector;
-use Maatify\AppController\Enums\EnumAppTypeId;
+use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\Json\Json;
 
 abstract class AppDeviceFields extends DbConnector
@@ -42,9 +42,9 @@ abstract class AppDeviceFields extends DbConnector
     protected string $device_id;
     protected int $app_type_id;
 
-    public function setAppTypeId(EnumAppTypeId $appTypeId): self
+    public function setAppTypeId(AppTypeIdInterface $appTypeId): self
     {
-        $this->app_type_id = $appTypeId->value;
+        $this->app_type_id = $appTypeId->getValue();
         return $this;
     }
 

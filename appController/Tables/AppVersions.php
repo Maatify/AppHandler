@@ -12,7 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
-use Maatify\AppController\Enums\EnumAppTypeId;
+use Maatify\AppController\Enums\AppTypeId;
 use Maatify\Json\Json;
 
 class AppVersions extends DbConnector
@@ -48,7 +48,7 @@ class AppVersions extends DbConnector
     }
 
     private int $app_type_id = 0;
-    private ?EnumAppTypeId $app_type_enum;
+    private ?AppTypeId $app_type_enum;
     private int $app_version = 0;
     private string $device_name = '';
     private string $device_id = '';
@@ -58,14 +58,14 @@ class AppVersions extends DbConnector
     {
         $this->app_type_id = (int)$this->postValidator->Require('app_type_id', 'int');
 
-        if (! EnumAppTypeId::tryFrom($this->app_type_id)) {
+        if (! AppTypeId::tryFrom($this->app_type_id)) {
             Json::Incorrect('app_type_id');
             // App type 1: web, 2: android, 3: ios, 4: Huawei etc
         }
 
         $this->app_version = (int)$this->postValidator->Require('app_version', 'int');
         if (! $this->Check()) {
-            $this->app_type_enum = EnumAppTypeId::validate($this->app_type_id);
+            $this->app_type_enum = AppTypeId::validate($this->app_type_id);
 
             $url = $this->app_type_enum?->getUrl() ?? '';
 
@@ -104,7 +104,7 @@ class AppVersions extends DbConnector
         return $this->app_type_id;
     }
 
-    public function getAppTypeEnum(): ?EnumAppTypeId
+    public function getAppTypeEnum(): ?AppTypeId
     {
         return $this->app_type_enum;
     }

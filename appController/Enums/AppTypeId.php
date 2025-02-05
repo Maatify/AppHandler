@@ -11,10 +11,10 @@
 
 namespace Maatify\AppController\Enums;
 
-use Maatify\AppController\Contracts\EnumAppTypeIdInterface;
+use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\AppController\Tables\AppSocial;
 
-enum EnumAppTypeId: int implements EnumAppTypeIdInterface
+enum AppTypeId: int implements AppTypeIdInterface
 {
     case Web = 1;
     case Android = 2;
@@ -45,7 +45,7 @@ enum EnumAppTypeId: int implements EnumAppTypeIdInterface
     }
 
     /**
-     * Validate and get the corresponding EnumAppTypeId case.
+     * Validate and get the corresponding AppTypeId case.
      *
      * @param   int  $type_id
      *

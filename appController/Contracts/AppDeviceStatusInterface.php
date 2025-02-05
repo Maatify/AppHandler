@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Maatify\AppController\Contracts;
 
-interface EnumAppDeviceStatusInterface
+interface AppDeviceStatusInterface
 {
     public static function validate(int $type_id): ?self;
     public function getValue(): int;
