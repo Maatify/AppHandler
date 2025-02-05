@@ -11,9 +11,10 @@
 
 namespace Maatify\AppController\Enums;
 
+use Maatify\AppController\Contracts\EnumAppTypeIdInterface;
 use Maatify\AppController\Tables\AppSocial;
 
-enum EnumAppTypeId: int
+enum EnumAppTypeId: int implements EnumAppTypeIdInterface
 {
     case Web = 1;
     case Android = 2;
@@ -53,5 +54,15 @@ enum EnumAppTypeId: int
     public static function validate(int $type_id): ?self
     {
         return self::tryFrom($type_id);
+    }
+
+    public function getValue(): int
+    {
+        return $this->value;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

@@ -11,7 +11,9 @@
 
 namespace Maatify\AppController\Enums;
 
-enum EnumAppDeviceStatus : int
+use Maatify\AppController\Contracts\EnumAppDeviceStatusInterface;
+
+enum EnumAppDeviceStatus : int implements EnumAppDeviceStatusInterface
 {
     case Pending = 1;
     case Approved = 2;
@@ -28,5 +30,15 @@ enum EnumAppDeviceStatus : int
     public static function validate(int $type_id): ?self
     {
         return self::tryFrom($type_id);
+    }
+
+    public function getValue(): int
+    {
+        return $this->value;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
