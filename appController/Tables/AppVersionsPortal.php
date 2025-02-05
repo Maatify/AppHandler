@@ -9,8 +9,9 @@
 
 namespace Maatify\AppController\Tables;
 
-use App\DB\Handler\ParentClassHandler;
+use Maatify\AppController\Enums\AppTypeIdEnum;
 use Maatify\Json\Json;
+use Maatify\Portal\DbHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
@@ -66,27 +67,37 @@ class AppVersionsPortal extends ParentClassHandler
     {
         $app_type_id = $this->postValidator->Require('app_type_id', ValidatorConstantsTypes::Int);
         $version_no = $this->postValidator->Require('version_no', ValidatorConstantsTypes::Int);
-        if (! in_array($app_type_id, AppType::ALL_APPS)) {
-            Json::Incorrect('app_type_id');
-        } else {
-            $this->CheckExist($version_no, $app_type_id);
-            parent::Record();
-        }
+        $this->CheckExist($version_no, $app_type_id);
+        parent::Record();
     }
 
     public function CheckExist(int $version_no, int $app_type_id): void
     {
+        if (! AppTypeIdEnum::tryFrom($app_type_id)) {
+            Json::Incorrect('app_type_id');
+        }
+
         if ($this->RowIsExistThisTable('`version_no` = ? AND `app_type_id` = ?', [$version_no, $app_type_id])) {
-            Json::Exist('version_no', 'Version Number AND app_type_id Is Already exist', $this->class_name . __LINE__);
+            Json::Exist('version_no',
+                'Version Number AND app_type_id Is Already exist',
+                $this->class_name . __LINE__);
         }
     }
 
     public function AllPaginationThisTableFilter(string $order_with_asc_desc = ''): void
     {
+        $app_type_id = $this->postValidator->Optional('app_type_id', ValidatorConstantsTypes::Int);
+
+        if(!empty($app_type_id) && ! AppTypeIdEnum::tryFrom($app_type_id)) {
+            Json::Incorrect('app_type_id');
+        }
+
         [$join, $cols] = AppType::obj()->InnerJoinThisTableByIdentifyId($this->tableName);
 
         Json::Success(
-            $this->ArrayPaginationThisTableFilter("`$this->tableName` " . $join, "`$this->tableName`.*, " . $cols, order_with_asc_desc: $order_with_asc_desc)
+            $this->ArrayPaginationThisTableFilter(
+                "`$this->tableName` " . $join, "`$this->tableName`.*, " . $cols,
+                order_with_asc_desc: $order_with_asc_desc)
         );
     }
 
@@ -95,14 +106,16 @@ class AppVersionsPortal extends ParentClassHandler
         $this->ValidatePostedTableId();
         $app_type_id = $this->postValidator->Optional('app_type_id', ValidatorConstantsTypes::Int);
         $version_no = $this->postValidator->Optional('version_no', ValidatorConstantsTypes::Int);
-        if(!isset($_POST['app_type_id']) || $_POST['app_type_id'] != $this->current_row['app_type_id']) {
+
+        if(isset($_POST['app_type_id']) || $_POST['app_type_id'] != $this->current_row['app_type_id']) {
             $app_type_id = $this->current_row['app_type_id'];
         }
-        if(!isset($_POST['version_no']) || $_POST['version_no'] != $this->current_row['version_no']) {
-            $app_type_id = $this->current_row['version_no'];
-        }else{
-            $this->CheckExist($version_no, $app_type_id);
+
+        if(isset($_POST['version_no']) || $_POST['version_no'] != $this->current_row['version_no']) {
+            $version_no = $this->current_row['version_no'];
         }
+
+        $this->CheckExist($version_no, $app_type_id);
 
         parent::UpdateByPostedId();
     }

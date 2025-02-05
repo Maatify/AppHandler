@@ -1,18 +1,20 @@
 <?php
 /**
- * Created by Maatify.dev
- * User: Maatify.dev
- * Date: 2024-07-10
- * Time: 1:06 PM
- * https://www.Maatify.dev
+ * @PHP       Version >= 8.0
+ * @copyright ©2023 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2024-07-10 1:06 PM
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: AppLunchSliderPortal
  */
 
 namespace Maatify\AppController\Tables;
 
-use App\Assist\AppFunctions;
-use App\DB\Handler\ParentLanguageSliderHandler;
-use App\DB\Tables\DbLanguage;
+use \App\Assist\AppFunctions;
+use \App\DB\Tables\DbLanguage;
 use Maatify\Json\Json;
+use Maatify\Portal\DbHandler\ParentLanguageSliderHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 

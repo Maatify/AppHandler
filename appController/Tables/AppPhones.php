@@ -5,8 +5,8 @@
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2023-06-03 11:40 AM
  * @link      https://www.maatify.dev Maatify.com
- * @link      https://github.com/Maatify/cooperation  view project on GitHub
- * @Maatify   cooperation :: AppPhones
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: AppPhones
  */
 
 namespace Maatify\AppController\Tables;

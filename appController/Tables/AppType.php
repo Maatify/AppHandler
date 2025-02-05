@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by Maatify.dev
- * User: Maatify.dev
- * Date: 2024-07-10
- * Time: 8:29 AM
- * https://www.Maatify.dev
+ * @PHP       Version >= 8.0
+ * @copyright ©2023 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2024-07-10 8:29 AM
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: AppType
  */
 
 namespace Maatify\AppController\Tables;
@@ -41,8 +43,6 @@ class AppType extends DbConnector
 
         return self::$instance;
     }
-
-    public const ALL_APPS = [1, 2, 3, 4, 5, 6, 7];
 
     public function TypeName(int $type_id): string
     {

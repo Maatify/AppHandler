@@ -3,33 +3,28 @@
  * @PHP       Version >= 8.0
  * @copyright ©2023 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
- * @since     2024-07-10 1:03 PM
+ * @since     2025-01-7 6:24 AM
  * @link      https://www.maatify.dev Maatify.com
  * @link      https://github.com/Maatify/AppHandler  view project on GitHub
- * @Maatify   AppHandler :: AppLunchSlider
+ * @Maatify   AppHandler :: AppDeviceStatusEnum
  */
 
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
-use App\DB\Tables\DbLanguage;
+use Maatify\Json\Json;
 
-class AppLunchSlider extends DbConnector
+class AppDeviceStatus extends DbConnector
 {
-    public const        TABLE_NAME                 = "app_lunch_slider";
-    public const        TABLE_ALIAS                = '';
-    public const        IDENTIFY_TABLE_ID_COL_NAME = 'slider_id';
+    public const        TABLE_NAME                 = "app_device_status";
+    public const        TABLE_ALIAS                = 'app_device_status';
+    public const        IDENTIFY_TABLE_ID_COL_NAME = 'device_status_id';
     public const        LOGGER_TYPE                = self::TABLE_NAME;
     public const        LOGGER_SUB_TYPE            = '';
     public const        COLS                       = [
-        self::IDENTIFY_TABLE_ID_COL_NAME       => 1,
-        DbLanguage::IDENTIFY_TABLE_ID_COL_NAME => 1,
-        'image_type'                           => 0,
-        'image'                                => 0,
-        'title'                                => 0,
-        'description'                          => 0,
-        'sort'                                 => 1,
-        'status'                               => 1,
+        self::IDENTIFY_TABLE_ID_COL_NAME => 1,
+        'style'                          => 0,
+        'name'                           => 0,
     ];
 
     protected string $tableName = self::TABLE_NAME;
@@ -47,5 +42,20 @@ class AppLunchSlider extends DbConnector
         }
 
         return self::$instance;
+    }
+
+    public function All(): void
+    {
+        Json::Success(
+            $this->RowsThisTable()
+        );
+    }
+
+    public function InnerJoinThisTableByIdentifyId(string $tables): array
+    {
+        return [
+            "INNER JOIN `$this->tableName` ON `$this->tableName`.`$this->identify_table_id_col_name` = `$tables`.`$this->identify_table_id_col_name`",
+            "`$this->tableName`.`name` as app_name, `$this->tableName`.`app_icon` as app_icon",
+        ];
     }
 }
