@@ -6,7 +6,7 @@
  * @since     2025-01-7 6:24 AM
  * @link      https://www.maatify.dev Maatify.com
  * @link      https://github.com/Maatify/AppHandler  view project on GitHub
- * @Maatify   AppHandler :: AppDeviceStatus
+ * @Maatify   AppHandler :: AppDeviceStatusEnum
  */
 
 namespace Maatify\AppController\Tables;

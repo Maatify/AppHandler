@@ -17,7 +17,6 @@ use Maatify\AppController\Contracts\AppTypeIdInterface;
 
 class AppTypeIdService
 {
-
     private AppTypeIdInterface $appTypeIdEnum;
 
     public function __construct(AppTypeIdInterface $appTypeIdEnum)

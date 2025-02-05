@@ -6,7 +6,7 @@
  * @since     2025-01-05 7:58 AM
  * @link      https://www.maatify.dev Maatify.com
  * @link      https://github.com/Maatify/AppHandler  view project on GitHub
- * @Maatify   AppHandler :: AppDeviceStatus
+ * @Maatify   AppHandler :: AppDeviceStatusEnum
  */
 
 namespace Maatify\AppController\Enums;
@@ -14,7 +14,7 @@ namespace Maatify\AppController\Enums;
 use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\AppController\Tables\AppSocial;
 
-enum AppTypeId: int implements AppTypeIdInterface
+enum AppTypeIdEnum: int implements AppTypeIdInterface
 {
     case Web = 1;
     case Android = 2;
@@ -45,7 +45,7 @@ enum AppTypeId: int implements AppTypeIdInterface
     }
 
     /**
-     * Validate and get the corresponding AppTypeId case.
+     * Validate and get the corresponding AppTypeIdEnum case.
      *
      * @param   int  $type_id
      *

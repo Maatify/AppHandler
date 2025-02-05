@@ -11,7 +11,7 @@
 
 namespace Maatify\AppController\Tables;
 
-use Maatify\AppController\Enums\AppTypeId;
+use Maatify\AppController\Enums\AppTypeIdEnum;
 use Maatify\Json\Json;
 use Maatify\Portal\DbHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
@@ -75,7 +75,7 @@ class AppVersionsPortal extends ParentClassHandler
 
     public function CheckExist(int $version_no, int $app_type_id): void
     {
-        if (! AppTypeId::tryFrom($app_type_id)) {
+        if (! AppTypeIdEnum::tryFrom($app_type_id)) {
             Json::Incorrect('app_type_id');
         }
 
@@ -90,7 +90,7 @@ class AppVersionsPortal extends ParentClassHandler
     {
         $app_type_id = $this->postValidator->Optional('app_type_id', ValidatorConstantsTypes::Int);
 
-        if(!empty($app_type_id) && ! AppTypeId::tryFrom($app_type_id)) {
+        if(!empty($app_type_id) && ! AppTypeIdEnum::tryFrom($app_type_id)) {
             Json::Incorrect('app_type_id');
         }
 

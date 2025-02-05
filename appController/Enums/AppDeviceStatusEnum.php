@@ -6,14 +6,14 @@
  * @since     2025-01-13 8:59 PM
  * @link      https://www.maatify.dev Maatify.com
  * @link      https://github.com/Maatify/AppHandler  view project on GitHub
- * @Maatify   AppHandler :: AppDeviceStatus
+ * @Maatify   AppHandler :: AppDeviceStatusEnum
  */
 
 namespace Maatify\AppController\Enums;
 
 use Maatify\AppController\Contracts\AppDeviceStatusInterface;
 
-enum AppDeviceStatus : int implements AppDeviceStatusInterface
+enum AppDeviceStatusEnum : int implements AppDeviceStatusInterface
 {
     case Pending = 1;
     case Approved = 2;
@@ -21,7 +21,7 @@ enum AppDeviceStatus : int implements AppDeviceStatusInterface
 
 
     /**
-     * Validate and get the corresponding AppTypeId case.
+     * Validate and get the corresponding AppTypeIdEnum case.
      *
      * @param   int  $type_id
      *
