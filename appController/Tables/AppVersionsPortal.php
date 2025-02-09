@@ -1,17 +1,19 @@
 <?php
 /**
- * Created by Maatify.dev
- * User: Maatify.dev
- * Date: 2024-07-10
- * Time: 9:40 AM
- * https://www.Maatify.dev
+ * @PHP       Version >= 8.2
+ * @copyright ©2023 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2024-07-10 9:40 AM
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: AppVersionsPortal
  */
 
 namespace Maatify\AppController\Tables;
 
 use Maatify\AppController\Enums\AppTypeIdEnum;
 use Maatify\Json\Json;
-use Maatify\Portal\DbHandler\ParentClassHandler;
+use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2023 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2025-01-05 7:58 AM

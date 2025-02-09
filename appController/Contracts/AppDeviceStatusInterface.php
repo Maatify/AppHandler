@@ -1,12 +1,12 @@
 <?php
 /**
- * Created by Maatify.dev
- * User: Maatify.dev
- * Date: 2025-02-05
- * Time: 11:00
- * Project: AppHandler
- * IDE: PhpStorm
- * https://www.Maatify.dev
+ * @PHP       Version >= 8.2
+ * @copyright ©2023 Maatify.dev
+ * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since     2025-02-05 11:00
+ * @link      https://www.maatify.dev Maatify.com
+ * @link      https://github.com/Maatify/AppHandler  view project on GitHub
+ * @Maatify   AppHandler :: AppDeviceStatusInterface
  */
 
 declare(strict_types=1);

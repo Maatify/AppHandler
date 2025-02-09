@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2023 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2024-07-10 1:06 PM
@@ -14,7 +14,7 @@ namespace Maatify\AppController\Tables;
 use \App\Assist\AppFunctions;
 use \App\DB\Tables\DbLanguage;
 use Maatify\Json\Json;
-use Maatify\Portal\DbHandler\ParentLanguageSliderHandler;
+use Maatify\LanguagePortalHandler\DBHandler\ParentLanguageSliderHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @PHP       Version >= 8.0
+ * @PHP       Version >= 8.2
  * @copyright ©2023 Maatify.dev
  * @author    Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since     2025-01-15 2:20 PM
@@ -11,7 +11,7 @@
 
 namespace Maatify\AppController\Tables;
 
-use Maatify\Portal\DbHandler\ParentClassHandler;
+use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
