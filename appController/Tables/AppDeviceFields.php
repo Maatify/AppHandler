@@ -44,16 +44,6 @@ abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInt
     protected string $device_id;
     protected int $app_type_id;
 
-    public function getMaxFailedSms(): int
-    {
-        return $this->max_failed_sms;
-    }
-
-    public function getMaxFailedLogins(): int
-    {
-        return $this->max_failed_login;
-    }
-
     public function setAppTypeId(AppTypeIdInterface $appTypeId): self
     {
         $this->app_type_id = $appTypeId->getValue();
