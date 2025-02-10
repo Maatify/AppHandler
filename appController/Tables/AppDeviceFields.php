@@ -12,10 +12,11 @@
 namespace Maatify\AppController\Tables;
 
 use \App\DB\DBS\DbConnector;
+use Maatify\AppController\Contracts\AppDeviceFieldsInterface;
 use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\Json\Json;
 
-abstract class AppDeviceFields extends DbConnector implements AppTypeIdInterface
+abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInterface
 {
     public const TABLE_NAME                 = 'app_f_device';
     public const TABLE_ALIAS                = '';
