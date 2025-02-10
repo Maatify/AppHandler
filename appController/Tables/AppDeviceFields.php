@@ -78,7 +78,13 @@ abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInt
 
     public function deviceIdIsExist(): int
     {
-        $this->row_id = (int)$this->ColThisTable('id', '`app_type_id` = ? AND `device_id` = ? ', [$this->app_type_id, $this->device_id]);
+        $this->row_id = (int)$this->ColThisTable(
+            $this->identify_table_id_col_name, '`app_type_id` = ? AND `device_id` = ? ',
+            [
+                $this->app_type_id,
+                $this->device_id
+            ]
+        );
 
         return $this->row_id;
     }
@@ -92,70 +98,61 @@ abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInt
 
     public function checkDeviceIsBlockedBool(): bool
     {
-        if (! $this->deviceIdIsExist()) {
+        if (!$this->deviceIdIsExist()) {
             $this->recordDevice();
-
             return false;
         }
 
-        if ($this->ColThisTable('sms_fields',
-            '`app_type_id` = ? AND `device_id` = ? AND `sms_fields` >= ? AND `login_fields` >= ? ',
-            [$this->app_type_id, $this->device_id, $this->getMaxFailedSms(), $this->getMaxFailedLogins()])
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    private function fieldSms(): int
-    {
-        return (int)$this->ColThisTable('sms_fields', '`id` = ? ', [$this->row_id]);
+        return $this->ColThisTable('sms_fields', '`app_type_id` = ? AND `device_id` = ? AND `sms_fields` >= ? AND `login_fields` >= ?', [
+            $this->app_type_id,
+            $this->device_id,
+            $this->max_failed_sms,
+            $this->max_failed_login
+        ]);
     }
 
     public function addFieldSms(): int
     {
-        $fields = $this->fieldSms();
-        if ($fields <= $this->getMaxFailedSms()) {
-            if ($this->Edit(['sms_fields' => $fields + 1], '`id` = ? ', [$this->row_id])) {
-                return $fields + 1;
-            }
-        }
-        Json::DeviceIsBlocked();
-        exit();
+        return $this->incrementField('sms_fields', $this->getMaxFailedSms());
     }
 
     public function removeFieldSms(): void
     {
-        if ($this->deviceIdIsExist()) {
-            $this->Edit(['sms_fields' => 0], '`id` = ? ', [$this->row_id]);
-        }
-    }
-
-
-
-    private function fieldLogins(): int
-    {
-        return (int)$this->ColThisTable('login_fields', '`id` = ? ', [$this->row_id]);
+        $this->resetField('sms_fields');
     }
 
     public function addFieldLogins(): int
     {
-        $fields = $this->fieldLogins();
-        if ($fields <= $this->getMaxFailedLogins()) {
-            if ($this->Edit(['login_fields' => $fields + 1], '`id` = ? ', [$this->row_id])) {
-                return $fields + 1;
-            }
-        }
-        Json::DeviceIsBlocked();
-        exit();
+        return $this->incrementField('login_fields', $this->getMaxFailedLogins());
     }
 
     public function removeFieldLogins(): void
     {
-        if ($this->deviceIdIsExist()) {
-            $this->Edit(['login_fields' => 0], '`id` = ? ', [$this->row_id]);
+        $this->resetField('login_fields');
+    }
+
+    /**
+     * Generic method to increment fields (e.g., sms_fields, login_fields).
+     */
+    private function incrementField(string $fieldName, int $maxLimit): int
+    {
+        $currentValue = (int)$this->ColThisTable($fieldName, "`$this->identify_table_id_col_name` = ?", [$this->row_id]);
+
+        if ($currentValue < $maxLimit) {
+            $newValue = $currentValue + 1;
+            $this->Edit([$fieldName => $newValue], "`$this->identify_table_id_col_name` = ?", [$this->row_id]);
+            return $newValue;
         }
+
+        Json::DeviceIsBlocked();
+        exit();
+    }
+
+    /**
+     * Generic method to reset fields (e.g., sms_fields, login_fields).
+     */
+    private function resetField(string $fieldName): void
+    {
+        $this->Edit([$fieldName => 0], "`$this->identify_table_id_col_name` = ?", [$this->row_id]);
     }
 }
