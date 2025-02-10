@@ -1,6 +1,6 @@
 {  "name": "maatify/app-handler",
   "description": "PHP library for Customers Apps Controller handler, known by our team",
-  "version": "3.0.0007",
+  "version": "3.0.0008",
   "type": "library",
   "keywords": [
     "PHP",
@@ -10,7 +10,7 @@
     "Handler"
   ],
   "homepage": "https://github.com/Maatify/",
-  "license": "proprietary",
+  "license": "MIT",
   "authors": [
     {
       "name": "Mohamed Abdulalim",
