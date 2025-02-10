@@ -12,7 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
-use App\DB\Tables\DbLanguage;
+use Maatify\LanguagePortalHandler\Tables\LanguageTable;
 
 class AppLunchSlider extends DbConnector
 {
@@ -22,14 +22,14 @@ class AppLunchSlider extends DbConnector
     public const        LOGGER_TYPE                = self::TABLE_NAME;
     public const        LOGGER_SUB_TYPE            = '';
     public const        COLS                       = [
-        self::IDENTIFY_TABLE_ID_COL_NAME       => 1,
-        DbLanguage::IDENTIFY_TABLE_ID_COL_NAME => 1,
-        'image_type'                           => 0,
-        'image'                                => 0,
-        'title'                                => 0,
-        'description'                          => 0,
-        'sort'                                 => 1,
-        'status'                               => 1,
+        self::IDENTIFY_TABLE_ID_COL_NAME          => 1,
+        LanguageTable::IDENTIFY_TABLE_ID_COL_NAME => 1,
+        'image_type'                              => 0,
+        'image'                                   => 0,
+        'title'                                   => 0,
+        'description'                             => 0,
+        'sort'                                    => 1,
+        'status'                                  => 1,
     ];
 
     protected string $tableName = self::TABLE_NAME;

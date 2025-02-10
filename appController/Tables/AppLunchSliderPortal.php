@@ -12,9 +12,10 @@
 namespace Maatify\AppController\Tables;
 
 use \App\Assist\AppFunctions;
-use \App\DB\Tables\DbLanguage;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentLanguageSliderHandler;
+use Maatify\LanguagePortalHandler\Language\DbLanguage;
+use Maatify\LanguagePortalHandler\Tables\LanguageTable;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
 use Maatify\PostValidatorV2\ValidatorConstantsValidators;
 
@@ -43,7 +44,7 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
     protected string $inner_language_name_class = '';
 
     protected array $cols_to_add = [
-        [DbLanguage::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Require],
+        [LanguageTable::IDENTIFY_TABLE_ID_COL_NAME, ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Require],
         ['image_type', ValidatorConstantsTypes::Small_Letters, ValidatorConstantsValidators::Require],
         ['image', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Optional],
         ['title', ValidatorConstantsTypes::Name, ValidatorConstantsValidators::Require],

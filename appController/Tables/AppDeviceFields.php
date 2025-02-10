@@ -15,7 +15,7 @@ use \App\DB\DBS\DbConnector;
 use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\Json\Json;
 
-abstract class AppDeviceFields extends DbConnector
+abstract class AppDeviceFields extends DbConnector implements AppTypeIdInterface
 {
     public const TABLE_NAME                 = 'app_f_device';
     public const TABLE_ALIAS                = '';
@@ -37,10 +37,21 @@ abstract class AppDeviceFields extends DbConnector
     protected string $logger_sub_type = self::LOGGER_SUB_TYPE;
     protected array $cols = self::COLS;
 
-    protected const FIELDS_SMS   = 5;
-    protected const FIELDS_LOGIN = 7;
+    protected int $max_failed_sms = 5;
+    protected int $max_failed_login = 7;
+
     protected string $device_id;
     protected int $app_type_id;
+
+    public function getMaxFailedSms(): int
+    {
+        return $this->max_failed_sms;
+    }
+
+    public function getMaxFailedLogins(): int
+    {
+        return $this->max_failed_login;
+    }
 
     public function setAppTypeId(AppTypeIdInterface $appTypeId): self
     {
@@ -98,7 +109,7 @@ abstract class AppDeviceFields extends DbConnector
 
         if ($this->ColThisTable('sms_fields',
             '`app_type_id` = ? AND `device_id` = ? AND `sms_fields` >= ? AND `login_fields` >= ? ',
-            [$this->app_type_id, $this->device_id, self::FIELDS_SMS, self::FIELDS_LOGIN])
+            [$this->app_type_id, $this->device_id, $this->getMaxFailedSms(), $this->getMaxFailedLogins()])
         ) {
             return true;
         }
@@ -115,7 +126,7 @@ abstract class AppDeviceFields extends DbConnector
     public function addFieldSms(): int
     {
         $fields = $this->fieldSms();
-        if ($fields <= self::FIELDS_SMS) {
+        if ($fields <= $this->getMaxFailedSms()) {
             if ($this->Edit(['sms_fields' => $fields + 1], '`id` = ? ', [$this->row_id])) {
                 return $fields + 1;
             }
@@ -141,7 +152,7 @@ abstract class AppDeviceFields extends DbConnector
     public function addFieldLogins(): int
     {
         $fields = $this->fieldLogins();
-        if ($fields <= self::FIELDS_LOGIN) {
+        if ($fields <= $this->getMaxFailedLogins()) {
             if ($this->Edit(['login_fields' => $fields + 1], '`id` = ? ', [$this->row_id])) {
                 return $fields + 1;
             }
