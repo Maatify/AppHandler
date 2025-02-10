@@ -12,6 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
+use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\AppController\Enums\AppTypeIdEnum;
 use Maatify\Json\Json;
 
@@ -48,7 +49,7 @@ class AppVersions extends DbConnector
     }
 
     private int $app_type_id = 0;
-    private ?AppTypeIdEnum $app_type_enum;
+    private ?AppTypeIdInterface $app_type_enum;
     private int $app_version = 0;
     private string $device_name = '';
     private string $device_id = '';
@@ -104,7 +105,7 @@ class AppVersions extends DbConnector
         return $this->app_type_id;
     }
 
-    public function getAppTypeEnum(): ?AppTypeIdEnum
+    public function getAppTypeEnum(): ?AppTypeIdInterface
     {
         return $this->app_type_enum;
     }
