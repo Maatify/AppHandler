@@ -103,11 +103,11 @@ abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInt
             return false;
         }
 
-        return $this->ColThisTable('sms_fields', '`app_type_id` = ? AND `device_id` = ? AND `sms_fields` >= ? AND `login_fields` >= ?', [
+        return $this->ColThisTable('sms_fields', '`app_type_id` = ? AND `device_id` = ? AND (`sms_fields` >= ? OR `login_fields` >= ?)', [
             $this->app_type_id,
             $this->device_id,
-            $this->max_failed_sms,
-            $this->max_failed_login
+            $this->getMaxFailedSms(),
+            $this->getMaxFailedLogins()
         ]);
     }
 
