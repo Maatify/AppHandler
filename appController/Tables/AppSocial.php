@@ -59,32 +59,48 @@ class AppSocial extends DbConnector
         return self::$instance;
     }
 
-    public function AndroidUrl(): string
+    public function socialRow(): array
+    {
+        return $this->RowThisTable('`email`, 
+        `facebook`, 
+        `twitter`, 
+        `instagram`, 
+        `linkedin`, 
+        `youtube`, 
+        `whatsapp`, 
+        `about_us`, 
+        `privacy_policy`, 
+        `returns_refunds_policy`, 
+        `dev_name`, 
+        `dev_url`', "`$this->identify_table_id_col_name` = ? ", [1]);
+    }
+
+    public function androidUrl(): string
     {
         return $this->ColByName('android_app');
     }
 
-    public function IosUrl(): string
+    public function iosUrl(): string
     {
         return $this->ColByName('ios_app');
     }
 
-    public function HuaweiUrl(): string
+    public function huaweiUrl(): string
     {
         return $this->ColByName('huawei_app');
     }
 
-    public function AndroidAgentUrl(): string
+    public function androidAgentUrl(): string
     {
         return $this->ColByName('android_agent_app');
     }
 
-    public function IosAgentUrl(): string
+    public function iosAgentUrl(): string
     {
         return $this->ColByName('ios_agent_app');
     }
 
-    public function HuaweiAgentUrl(): string
+    public function huaweiAgentUrl(): string
     {
         return $this->ColByName('huawei_agent_app');
     }

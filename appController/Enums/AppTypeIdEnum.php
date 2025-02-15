@@ -34,12 +34,12 @@ enum AppTypeIdEnum: int implements AppTypeIdInterface
     public function getUrl(): string
     {
         return match ($this) {
-            self::Android => AppSocial::obj()->AndroidUrl(),
-            self::IOS => AppSocial::obj()->IosUrl(),
-            self::Huawei => AppSocial::obj()->HuaweiUrl(),
-            self::AgentAndroid => AppSocial::obj()->AndroidAgentUrl(),
-            self::AgentIOS => AppSocial::obj()->IosAgentUrl(),
-            self::AgentHuawei => AppSocial::obj()->HuaweiAgentUrl(),
+            self::Android => AppSocial::obj()->androidUrl(),
+            self::IOS => AppSocial::obj()->iosUrl(),
+            self::Huawei => AppSocial::obj()->huaweiUrl(),
+            self::AgentAndroid => AppSocial::obj()->androidAgentUrl(),
+            self::AgentIOS => AppSocial::obj()->iosAgentUrl(),
+            self::AgentHuawei => AppSocial::obj()->huaweiAgentUrl(),
             default => '',
         };
     }
