@@ -50,9 +50,20 @@ class AppLunchSlider extends DbConnector
         return self::$instance;
     }
 
-    public function appList(AppTypeIdInterface $appTypeId, int $language_id): array
+    public function appList(int $language_id): array
     {
-        return $this->RowsThisTable('*', '`language_id` = ? AND `image_type` = ? AND `status` = ? AND `is_archived` = ? ORDER BY sort ASC',
-            [$language_id, $appTypeId->getValue(), 1, 0]);
+        return $this->listByImageType($language_id, 'app');
+    }
+
+    public function agentList(int $language_id): array
+    {
+        return $this->listByImageType($language_id, 'agent');
+    }
+
+    private function listByImageType(int $language_id, string $image_type): array
+    {
+        return $this->RowsThisTable('`image`, `title`, `description`',
+            '`language_id` = ? AND LOWER(`image_type`) = ? AND `status` = ? AND `is_archived` = ? ORDER BY sort ASC',
+            [$language_id, strtolower($image_type), 1, 0]);
     }
 }
