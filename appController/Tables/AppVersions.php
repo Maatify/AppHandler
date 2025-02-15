@@ -59,13 +59,12 @@ class AppVersions extends DbConnector
     {
         $this->app_type_id = (int)$this->postValidator->Require('app_type_id', 'int');
 
-        if (! AppTypeIdEnum::tryFrom($this->app_type_id)) {
+        if (! $this->app_type_enum = AppTypeIdEnum::tryFrom($this->app_type_id)) {
             Json::Incorrect('app_type_id');
             // App type 1: web, 2: android, 3: ios, 4: Huawei etc
         }
 
         $this->app_version = (int)$this->postValidator->Require('app_version', 'int');
-        $this->app_type_enum = AppTypeIdEnum::validate($this->app_type_id);
 
         if (! $this->Check()) {
 
