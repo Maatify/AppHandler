@@ -1,6 +1,6 @@
 {  "name": "maatify/app-handler",
   "description": "PHP library for Customers Apps Controller handler, known by our team",
-  "version": "3.0.0015",
+  "version": "3.0.0016",
   "type": "library",
   "keywords": [
     "PHP",

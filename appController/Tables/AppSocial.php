@@ -68,9 +68,6 @@ class AppSocial extends DbConnector
         `linkedin`, 
         `youtube`, 
         `whatsapp`, 
-        `about_us`, 
-        `privacy_policy`, 
-        `returns_refunds_policy`, 
         `dev_name`, 
         `dev_url`', "`$this->identify_table_id_col_name` = ? ", [1]);
     }
