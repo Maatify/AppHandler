@@ -65,8 +65,9 @@ class AppVersions extends DbConnector
         }
 
         $this->app_version = (int)$this->postValidator->Require('app_version', 'int');
+        $this->app_type_enum = AppTypeIdEnum::validate($this->app_type_id);
+
         if (! $this->Check()) {
-            $this->app_type_enum = AppTypeIdEnum::validate($this->app_type_id);
 
             $url = $this->app_type_enum?->getUrl() ?? '';
 
