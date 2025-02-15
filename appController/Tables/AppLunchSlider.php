@@ -12,6 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
+use Maatify\AppController\Contracts\AppTypeIdInterface;
 use Maatify\LanguagePortalHandler\Tables\LanguageTable;
 
 class AppLunchSlider extends DbConnector
@@ -47,5 +48,11 @@ class AppLunchSlider extends DbConnector
         }
 
         return self::$instance;
+    }
+
+    public function appList(AppTypeIdInterface $appTypeId, int $language_id): array
+    {
+        return $this->RowsThisTable('*', '`language_id` = ? AND `image_type` = ? AND `status` = ? AND `is_archived` = ? ORDER BY sort ASC',
+            [$language_id, $appTypeId->getValue(), 1, 0]);
     }
 }
