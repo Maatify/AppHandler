@@ -79,10 +79,20 @@ class AppPhonesPortal extends ParentClassHandler
         }
     }
 
-
-
     private function CheckPhoneExist(string $phone): bool
     {
         return $this->RowIsExistThisTable('`phone` = ? ', [$phone]);
+    }
+
+    public function deleteByPostedId(): void
+    {
+        $this->ValidatePostedTableId();
+        $this->logger_keys = [$this->identify_table_id_col_name => $this->row_id];
+        $logger[$this->identify_table_id_col_name] = $this->row_id;
+        $changes[$this->identify_table_id_col_name] = $this->row_id;
+        $changes['phone'] = $this->current_row['phone'];
+        $this->Delete("`$this->identify_table_id_col_name` = ? ", [$this->row_id]);
+        $this->Logger($logger, changes: $changes, action: 'delete');
+        Json::Success(line: $this->class_name . __LINE__);
     }
 }
