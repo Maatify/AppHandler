@@ -43,11 +43,12 @@ class AppPhonesPortal extends ParentClassHandler
         return self::$instance;
     }
     protected array $cols_to_add = [
-        ['phone', ValidatorConstantsTypes::String, ValidatorConstantsValidators::Require],
+        ['phone', ValidatorConstantsTypes::Phone, ValidatorConstantsValidators::Require],
     ];
 
     protected array $cols_to_edit = [
-        ['phone', ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
+        ['phone', ValidatorConstantsTypes::Phone, ValidatorConstantsValidators::Optional],
+        ['sort', ValidatorConstantsTypes::Int, ValidatorConstantsValidators::Optional],
     ];
 
     protected array $cols_to_filter = [
@@ -57,7 +58,7 @@ class AppPhonesPortal extends ParentClassHandler
 
     public function Record(): void
     {
-        $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone);
+        $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone, $this->class_name . __LINE__);
         if($this->CheckPhoneExist($phone)){
             Json::Exist('phone', 'Phone number already exists', $this->class_name . __LINE__);
         }else{
@@ -72,12 +73,15 @@ class AppPhonesPortal extends ParentClassHandler
 
     public function UpdateByPostedId(): void
     {
-        $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone);
-        if($this->CheckPhoneExist($phone)){
+        $phone = $this->postValidator->Optional('phone', ValidatorConstantsTypes::Phone, $this->class_name . __LINE__);
+
+        if (!empty($phone) && $this->CheckPhoneExist($phone)) {
             Json::Exist('phone', 'Phone number already exists', $this->class_name . __LINE__);
-        }else{
-            parent::UpdateByPostedId();
+        } elseif (array_key_exists('phone', $_POST) && empty($phone)) {
+            unset($_POST['phone']);
         }
+
+        parent::UpdateByPostedId();
     }
 
     private function CheckPhoneExist(string $phone): bool
