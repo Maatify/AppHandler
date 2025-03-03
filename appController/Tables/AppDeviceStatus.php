@@ -12,6 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
+use JetBrains\PhpStorm\NoReturn;
 use Maatify\Json\Json;
 
 class AppDeviceStatus extends DbConnector
@@ -44,7 +45,7 @@ class AppDeviceStatus extends DbConnector
         return self::$instance;
     }
 
-    public function All(): void
+    #[NoReturn] public function All(): void
     {
         Json::Success(
             $this->RowsThisTable()

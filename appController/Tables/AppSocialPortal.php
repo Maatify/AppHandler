@@ -11,6 +11,7 @@
 
 namespace Maatify\AppController\Tables;
 
+use JetBrains\PhpStorm\NoReturn;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
@@ -65,7 +66,7 @@ class AppSocialPortal extends ParentClassHandler
 
 
 
-    public function AppView(): void
+    #[NoReturn] public function AppView(): void
     {
         $result = $this->RowThisTableByID(1);
         unset($result[self::IDENTIFY_TABLE_ID_COL_NAME]);

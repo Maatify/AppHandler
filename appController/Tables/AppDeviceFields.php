@@ -145,7 +145,6 @@ abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInt
         }
 
         Json::DeviceIsBlocked();
-        exit();
     }
 
     /**

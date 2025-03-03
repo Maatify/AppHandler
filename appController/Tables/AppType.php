@@ -12,6 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use App\DB\DBS\DbConnector;
+use JetBrains\PhpStorm\NoReturn;
 use Maatify\Json\Json;
 
 class AppType extends DbConnector
@@ -49,7 +50,7 @@ class AppType extends DbConnector
         return $this->ColThisTable('name', "`$this->identify_table_id_col_name` = ? ", [$type_id]);
     }
 
-    public function All(): void
+    #[NoReturn] public function All(): void
     {
         Json::Success(
             $this->RowsThisTable()

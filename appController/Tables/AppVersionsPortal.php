@@ -11,6 +11,7 @@
 
 namespace Maatify\AppController\Tables;
 
+use JetBrains\PhpStorm\NoReturn;
 use Maatify\AppController\Enums\AppTypeIdEnum;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
@@ -86,7 +87,7 @@ class AppVersionsPortal extends ParentClassHandler
         }
     }
 
-    public function AllPaginationThisTableFilter(string $order_with_asc_desc = ''): void
+    #[NoReturn] public function AllPaginationThisTableFilter(string $order_with_asc_desc = ''): void
     {
         $app_type_id = $this->postValidator->Optional('app_type_id', ValidatorConstantsTypes::Int);
 

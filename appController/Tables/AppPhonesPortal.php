@@ -11,6 +11,7 @@
 
 namespace Maatify\AppController\Tables;
 
+use JetBrains\PhpStorm\NoReturn;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
@@ -84,7 +85,7 @@ class AppPhonesPortal extends ParentClassHandler
         return $this->RowIsExistThisTable('`phone` = ? ', [$phone]);
     }
 
-    public function deleteByPostedId(): void
+    #[NoReturn] public function deleteByPostedId(): void
     {
         $this->ValidatePostedTableId();
         $this->logger_keys = [$this->identify_table_id_col_name => $this->row_id];
