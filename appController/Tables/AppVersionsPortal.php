@@ -74,7 +74,7 @@ class AppVersionsPortal extends ParentClassHandler
         parent::Record();
     }
 
-    public function CheckExist(int $version_no, int $app_type_id): void
+    private function CheckExist(int $version_no, int $app_type_id): void
     {
         if (! AppTypeIdEnum::tryFrom($app_type_id)) {
             Json::Incorrect('app_type_id');
@@ -91,7 +91,7 @@ class AppVersionsPortal extends ParentClassHandler
     {
         $app_type_id = $this->postValidator->Optional('app_type_id', ValidatorConstantsTypes::Int);
 
-        if(!empty($app_type_id) && ! AppTypeIdEnum::tryFrom($app_type_id)) {
+        if (! empty($app_type_id) && ! AppTypeIdEnum::tryFrom($app_type_id)) {
             Json::Incorrect('app_type_id');
         }
 
@@ -99,7 +99,8 @@ class AppVersionsPortal extends ParentClassHandler
 
         Json::Success(
             $this->ArrayPaginationThisTableFilter(
-                "`$this->tableName` " . $join, "`$this->tableName`.*, " . $cols,
+                "`$this->tableName` " . $join,
+                "`$this->tableName`.*, " . $cols,
                 order_with_asc_desc: $order_with_asc_desc)
         );
     }
@@ -107,18 +108,24 @@ class AppVersionsPortal extends ParentClassHandler
     public function UpdateByPostedId(): void
     {
         $this->ValidatePostedTableId();
+
         $app_type_id = $this->postValidator->Optional('app_type_id', ValidatorConstantsTypes::Int);
         $version_no = $this->postValidator->Optional('version_no', ValidatorConstantsTypes::Int);
 
-        if(isset($_POST['app_type_id']) || $_POST['app_type_id'] != $this->current_row['app_type_id']) {
-            $app_type_id = $this->current_row['app_type_id'];
+        $app_type_id_check = $app_type_id ? : $this->current_row['app_type_id'];
+        $version_no_check = $version_no ? : $this->current_row['version_no'];
+
+        if ($app_type_id == $this->current_row['app_type_id'] && array_key_exists('app_type_id', $_POST)) {
+            unset($_POST['app_type_id']);
         }
 
-        if(isset($_POST['version_no']) || $_POST['version_no'] != $this->current_row['version_no']) {
-            $version_no = $this->current_row['version_no'];
+        if ($version_no == $this->current_row['version_no'] && array_key_exists('version_no', $_POST)) {
+            unset($_POST['version_no']);
         }
 
-        $this->CheckExist($version_no, $app_type_id);
+        if ($app_type_id_check != $this->current_row['app_type_id'] || $version_no_check != $this->current_row['version_no']) {
+            $this->CheckExist($version_no_check, $app_type_id_check);
+        }
 
         parent::UpdateByPostedId();
     }
