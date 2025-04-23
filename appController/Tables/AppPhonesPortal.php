@@ -33,6 +33,13 @@ class AppPhonesPortal extends ParentClassHandler
     protected string $logger_type = self::LOGGER_TYPE;
     protected string $logger_sub_type = self::LOGGER_TYPE;
     protected array $cols = self::COLS;
+    private static self $instance;
+
+    // Singleton instance getter
+    public static function obj(?AppRedisLunchInfoInterface $appRedisLunchInfo): self
+    {
+        return self::$instance ??= new self($appRedisLunchInfo);
+    }
 
     public function __construct(private readonly ?AppRedisLunchInfoInterface $appRedisLunchInfo)
     {

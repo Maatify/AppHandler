@@ -80,6 +80,13 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
     protected array $child_classe_languages = [];
 
     protected string $table_destination_class = DbLanguage::class;
+    private static self $instance;
+
+    // Singleton instance getter
+    public static function obj(?AppRedisLunchInfoInterface $appRedisLunchInfo): self
+    {
+        return self::$instance ??= new self($appRedisLunchInfo);
+    }
 
     public function __construct(private readonly ?AppRedisLunchInfoInterface $appRedisLunchInfo)
     {
