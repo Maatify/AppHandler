@@ -12,6 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use JetBrains\PhpStorm\NoReturn;
+use Maatify\AppController\Contracts\AppRedisLunchInfoInterface;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
@@ -32,16 +33,12 @@ class AppPhonesPortal extends ParentClassHandler
     protected string $logger_type = self::LOGGER_TYPE;
     protected string $logger_sub_type = self::LOGGER_TYPE;
     protected array $cols = self::COLS;
-    private static self $instance;
 
-    public static function obj(): self
+    public function __construct(private readonly ?AppRedisLunchInfoInterface $appRedisLunchInfo)
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+        parent::__construct();
     }
+
     protected array $cols_to_add = [
         ['phone', ValidatorConstantsTypes::Phone, ValidatorConstantsValidators::Require],
     ];
@@ -56,13 +53,15 @@ class AppPhonesPortal extends ParentClassHandler
         ['phone', ValidatorConstantsTypes::Bool, ValidatorConstantsValidators::Optional],
     ];
 
-    public function Record(): void
+    #[NoReturn] public function Record(): void
     {
         $phone = $this->postValidator->Require('phone', ValidatorConstantsTypes::Phone, $this->class_name . __LINE__);
         if($this->CheckPhoneExist($phone)){
             Json::Exist('phone', 'Phone number already exists', $this->class_name . __LINE__);
         }else{
-            parent::Record();
+            parent::SilentRecord();
+
+            $this->success(__LINE__);
         }
     }
 
@@ -71,7 +70,7 @@ class AppPhonesPortal extends ParentClassHandler
         parent::AllPaginationThisTableFilter($order_with_asc_desc ? '' : ' ORDER BY sort ASC');
     }
 
-    public function UpdateByPostedId(): void
+    #[NoReturn] public function UpdateByPostedId(): void
     {
         $phone = $this->postValidator->Optional('phone', ValidatorConstantsTypes::Phone, $this->class_name . __LINE__);
 
@@ -81,7 +80,9 @@ class AppPhonesPortal extends ParentClassHandler
             unset($_POST['phone']);
         }
 
-        parent::UpdateByPostedId();
+        parent::UpdateByPostedIdSilent();
+
+        $this->success(__LINE__);
     }
 
     private function CheckPhoneExist(string $phone): bool
@@ -98,6 +99,16 @@ class AppPhonesPortal extends ParentClassHandler
         $changes['phone'] = $this->current_row['phone'];
         $this->Delete("`$this->identify_table_id_col_name` = ? ", [$this->row_id]);
         $this->Logger($logger, changes: $changes, action: 'delete');
-        Json::Success(line: $this->class_name . __LINE__);
+        $this->success(__LINE__);
+    }
+
+
+
+    #[NoReturn] private function success(int $line): void
+    {
+        if(!empty($this->appRedisLunchInfo)) {
+            $this->appRedisLunchInfo->deleteAppPhones();
+        }
+        Json::Success(line: $this->class_name . $line);
     }
 }

@@ -12,6 +12,7 @@
 namespace Maatify\AppController\Tables;
 
 use JetBrains\PhpStorm\NoReturn;
+use Maatify\AppController\Contracts\AppRedisLunchInfoInterface;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentClassHandler;
 use Maatify\PostValidatorV2\ValidatorConstantsTypes;
@@ -32,15 +33,11 @@ class AppSocialPortal extends ParentClassHandler
     protected string $logger_type = self::LOGGER_TYPE;
     protected string $logger_sub_type = self::LOGGER_TYPE;
     protected array $cols = self::COLS;
-    private static self $instance;
 
-    public static function obj(): self
+
+    public function __construct(private readonly ?AppRedisLunchInfoInterface $appRedisLunchInfo)
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+        parent::__construct();
     }
 
     protected array $cols_to_edit = [
@@ -70,17 +67,21 @@ class AppSocialPortal extends ParentClassHandler
     {
         $result = $this->RowThisTableByID(1);
         unset($result[self::IDENTIFY_TABLE_ID_COL_NAME]);
-
-        Json::Success(
-            $result,
-
-            line: $this->class_name . __LINE__
-        );
+        $this->success(__LINE__, $result);
     }
 
-    public function UpdateByPostedId(): void
+    #[NoReturn] public function UpdateByPostedId(): void
     {
         $_POST[self::IDENTIFY_TABLE_ID_COL_NAME] = 1;
-        parent::UpdateByPostedId();
+        parent::UpdateByPostedIdSilent();
+        $this->success(__LINE__);
+    }
+
+    #[NoReturn] private function success(int $line, array $data = []): void
+    {
+        if(!empty($this->appRedisLunchInfo)) {
+            $this->appRedisLunchInfo->deleteSocialRow();
+        }
+        Json::Success(result: $data, line: $this->class_name . $line);
     }
 }

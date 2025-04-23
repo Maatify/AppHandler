@@ -12,6 +12,8 @@
 namespace Maatify\AppController\Tables;
 
 use \App\Assist\AppFunctions;
+use JetBrains\PhpStorm\NoReturn;
+use Maatify\AppController\Contracts\AppRedisLunchInfoInterface;
 use Maatify\Json\Json;
 use Maatify\LanguagePortalHandler\DBHandler\ParentLanguageSliderHandler;
 use Maatify\LanguagePortalHandler\Language\DbLanguage;
@@ -79,32 +81,54 @@ class AppLunchSliderPortal extends ParentLanguageSliderHandler
 
     protected string $table_destination_class = DbLanguage::class;
 
-    private static self $instance;
-
-    public static function obj(): self
+    public function __construct(private readonly ?AppRedisLunchInfoInterface $appRedisLunchInfo)
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+        parent::__construct();
     }
 
-    public function Record(): void
+    #[NoReturn] public function Record(): void
     {
         $image_type = $this->postValidator->Require('image_type', ValidatorConstantsTypes::Small_Letters);
         if(!in_array($image_type, AppFunctions::LunchScreenImageTypes())) {
             Json::Incorrect('image_type', AppFunctions::LunchScreenImageTypesErrorMessage());
         }
-        parent::Record();
+        parent::SilentRecord();
+        $this->success(__LINE__);
     }
 
-    public function UpdateByPostedId(): void
+    #[NoReturn] public function UpdateByPostedId(): void
     {
         $image_type = $this->postValidator->Optional('image_type', ValidatorConstantsTypes::Small_Letters);
         if(!empty($image_type) && !in_array($image_type, AppFunctions::LunchScreenImageTypes())) {
             Json::Incorrect('image_type', AppFunctions::LunchScreenImageTypesErrorMessage());
         }
-        parent::UpdateByPostedId();
+        parent::UpdateByPostedIdSilent();
+        $this->success(__LINE__);
+    }
+
+    #[NoReturn] public function SwitchByKey(string $key): void
+    {
+        parent::SwitchByKeySilent($key);
+        $this->success(__LINE__);
+    }
+
+    #[NoReturn] public function SwitchStatus(): void
+    {
+        parent::SwitchStatusSilent();
+        $this->success(__LINE__);
+    }
+
+    #[NoReturn] public function UploadImage(): void
+    {
+        parent::UploadImageSilent();
+        $this->success(__LINE__);
+    }
+
+    #[NoReturn] private function success(int $line): void
+    {
+        if(!empty($this->appRedisLunchInfo)) {
+            $this->appRedisLunchInfo->deleteLunchSlider();
+        }
+        Json::Success(line: $this->class_name . $line);
     }
 }
