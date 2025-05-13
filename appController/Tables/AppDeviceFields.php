@@ -134,7 +134,7 @@ abstract class AppDeviceFields extends DbConnector implements AppDeviceFieldsInt
     /**
      * Generic method to increment fields (e.g., sms_fields, login_fields).
      */
-    private function incrementField(string $fieldName, int $maxLimit): int
+    protected function incrementField(string $fieldName, int $maxLimit): int
     {
         $currentValue = (int)$this->ColThisTable($fieldName, "`$this->identify_table_id_col_name` = ?", [$this->row_id]);
 
